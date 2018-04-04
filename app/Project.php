@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Project extends Model {
 
+	public static $projectTypes = ['scrum'=>'scrum', 'kanban'=>'kanban'];
+
 	/**
 	 * The attributes that are mass assignable.
 	 *
@@ -13,11 +15,13 @@ class Project extends Model {
 	 */
 	protected $fillable = [
 		'name',
+		'type',
 		'slug',
 		'issue_prefix',
 		'deadline',
 		'user_id', // need this for Faker
 	];
+
 
 	protected $dates = ['deadline'];
 
@@ -59,6 +63,11 @@ class Project extends Model {
 	public function getActiveIssues() {
 		$archiveStatusId = IssueStatus::getIdByMachineName('archive');
 		return $this->issues()->where('status_id', '!=', (int) $archiveStatusId)->get();
+	}
+
+	public function getNumberOfActiveIssues() {
+		$archiveStatusId = IssueStatus::getIdByMachineName('archive');
+		return $this->issues()->where('status_id', '!=', (int) $archiveStatusId)->count();
 	}
 
 	/*
