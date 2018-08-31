@@ -1,6 +1,6 @@
 // Display the inline form for adding an issue
 var dWidth = $(window).width() > 640 ? 600 : 'auto'
-$("#action-add-issue-body-dialog").dialog({
+$("#action-add-issue-body").dialog({
     autoOpen: false,
     title: "Add Issue",
     modal: true,
@@ -13,5 +13,5 @@ $("#action-add-issue-body-dialog").dialog({
     },
 });
 $("#action-add-issue").on('click', function() {
-    $("#action-add-issue-body-dialog").dialog("open");
+    $("#action-add-issue-body").dialog("open");
 });
