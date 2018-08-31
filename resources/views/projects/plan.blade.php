@@ -56,7 +56,7 @@
                         </button>
                     </div>
                 </div>
-                <div class="col-md-12" id="action-add-issue-body-dialog">
+                <div id="action-add-issue-body">
                     @include('projects.plan.issue-add-form')
                 </div>
             </div>
