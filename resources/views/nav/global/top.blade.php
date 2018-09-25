@@ -20,7 +20,7 @@
 						<ul class="dropdown-menu" role="menu">
 							<li><a href="#">Most Recent</a></li>
 							<li role="separator" class="divider"></li>
-							@foreach(\DB::table('projects')->orderBy('created_at','desc')->take(3)->get() as $project)
+							@foreach(\DB::table('projects')->orderBy('updated_at','desc')->take(5)->get() as $project)
 								<li><a href="{{ url('/projects/' . $project->id) }}">{{$project->name}}</a></li>
 							@endforeach
 							<li role="separator" class="divider"></li>
