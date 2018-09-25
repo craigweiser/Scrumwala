@@ -8,16 +8,18 @@
         @include('projects.show.header')
 
         <div class="row container-fluid project-work main-content">
-            @if(count($numIssues) > 0) @foreach($issueList as $status=>$issues)
-            <div class="col-sm-4">
-                <h3 data-status-heading="{{$status}}">{{$status}}
-                    <span class="grey issue-count">({{count($issues)}})</span>
-                </h3>
-            @include('projects.show.issues-list')
-            </div>
-            @endforeach @else
-            <h3>No issues found</h3>
-            <p><a href="/issues/create">Create a new issue</a></p>
+            @if(count($numIssues) > 0) 
+                @foreach($issueList as $status=>$issues)
+                    <div class="col-sm-4">
+                        <h3 data-status-heading="{{$status}}">{{$status}}
+                            <span class="grey issue-count">({{count($issues)}})</span>
+                        </h3>
+                        @include('projects.show.issues-list')
+                    </div>
+                @endforeach 
+            @else
+                <h3>No issues found</h3>
+                <p><a href="/issues/create">Create a new issue</a></p>
             @endif
         </div>
 
@@ -26,7 +28,7 @@
             @include('projects.plan.issue-add-form')
         </div>
         
-        @endif
+    @endif
 @endsection
 
 @include('projects.show.js')

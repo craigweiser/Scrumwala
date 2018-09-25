@@ -109,7 +109,11 @@
                                     type="submit">Complete
                             </button>
                         @endif
-                        @include('projects.plan.issues-in-sprint')
+                        @if($project->type == 'kanban')
+                            @include('projects.plan.kanban-issues')
+                        @else 
+                            @include('projects.plan.issues-in-sprint')
+                        @endif
                     @endforeach
                 </div>
             </div>

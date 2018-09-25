@@ -70,6 +70,16 @@ class Project extends Model {
 		return $this->issues()->where('status_id', '!=', (int) $archiveStatusId)->count();
 	}
 
+	public function getActiveKanbanIssues() {
+		$archiveStatusId = IssueStatus::getIdByMachineName('archive');
+		$completedStatusId = IssueStatus::getIdByMachineName('complete');
+		return $this->issues()
+			->whereNotIn('status_id', [$archiveStatusId, $completedStatusId])
+			->orderBy('priority_order')
+			->orderBy('id')
+			->get();
+	}
+
 	/*
 	 * A project can have many sprints
 	 */

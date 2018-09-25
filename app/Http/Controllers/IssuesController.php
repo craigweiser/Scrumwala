@@ -184,13 +184,27 @@ class IssuesController extends Controller
         $nextIssueId = trim(strip_tags(Request::get('nextIssueId')));
 
         if (in_array($newIssueStatusMachineName, $issueStatusMachineNames)) {
+            \Log::info('Issue moved to ' . $newIssueStatusMachineName);
             $issueId = (int) trim(Request::get('issueId'));
             $statusId = array_search($newIssueStatusMachineName, $issueStatusMachineNames);
 
             $issue = Issue::findOrFail($issueId);
             if ($issue) {
                 DB::update('update issues set status_id = ? where id = ?', [$statusId, $issueId]);
-                $result = 'Issue status has been changed successfully.';
+                if (Request::get('newNextIssueId')) {
+                    $newNextIssueId = trim(strip_tags(Request::get('newNextIssueId')));
+                } else {
+                    $newNextIssueId = NULL; // have been moved to the bottom of the list
+                }
+        
+                $newNextIssue = Issue::findOrFail($newNextIssueId);
+                $issueService = new IssueService(new Issue());
+                $reorderResult = $issueService->reorder($issue, $newNextIssue);
+                if($reorderResult)
+                    $result = 'Issue status has been changed successfully.';
+                else 
+                    $result = 'Issue status changed but reorder failed.';
+        
 
                 // If an issue is archived set sort order (previous and next) to NULL
                 if ($newIssueStatusMachineName == 'archive') {
@@ -232,6 +246,8 @@ class IssuesController extends Controller
                     $archivedIssue->save();
                 }
             }
+        } else {
+            \Log::warning('Issue was moved to an unknown column!');
         }
         return $result;
     }
@@ -310,7 +326,6 @@ class IssuesController extends Controller
     public function sortOrderPriority()
     {
         $issueId = (int) trim(Request::get('issueId'));
-        $projectId = (int) trim(Request::get('projectId'));
         if (Request::get('newNextIssueId')) {
             $newNextIssueId = trim(strip_tags(Request::get('newNextIssueId')));
         } else {
@@ -425,5 +440,4 @@ class IssuesController extends Controller
 
         return $issue;
     }
-
 }

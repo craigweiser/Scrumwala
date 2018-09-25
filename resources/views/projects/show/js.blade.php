@@ -36,6 +36,7 @@
                     data: {
                         'issueId': issueId,
                         'machineNameOfNewIssueStatus':draggedToListId,
+                        'newNextIssueId': $('li[data-id=' + issueId + ']').next().attr('data-id'),
                         '_token': "{{ csrf_token() }}"
                     },
                     success: function(result) {
