@@ -154,7 +154,7 @@ class IssuesController extends Controller
      */
     public function search(IssueSearchRequest $request)
     {
-        $query = trim(strip_tags($request->get('query')));
+        $query = trim(strip_tags($request->input('query')));
         $issues = Issue::where('title', 'LIKE', "%$query%")->get();
 
         $issues->each(function ($issue) {
@@ -177,30 +177,30 @@ class IssuesController extends Controller
      * Update the status of an issue
      * @return string
      */
-    public function statuschange()
+    public function statuschange(Request $request)
     {
         $result = 'There was an error updating the issue status';
         $issueStatusMachineNames = IssueStatus::lists('machine_name', 'id')->all();
-        $newIssueStatusMachineName = trim(strip_tags(Request::get('machineNameOfNewIssueStatus')));
+        $newIssueStatusMachineName = trim(strip_tags($request->input('machineNameOfNewIssueStatus')));
 
-        $prevIssueId = trim(strip_tags(Request::get('prevIssueId')));
-        $nextIssueId = trim(strip_tags(Request::get('nextIssueId')));
+        $prevIssueId = trim(strip_tags($request->input('prevIssueId')));
+        $nextIssueId = trim(strip_tags($request->input('nextIssueId')));
 
         if (in_array($newIssueStatusMachineName, $issueStatusMachineNames)) {
             \Log::info('Issue moved to ' . $newIssueStatusMachineName);
-            $issueId = (int) trim(Request::get('issueId'));
+            $issueId = (int) trim($request->input('issueId'));
             $statusId = array_search($newIssueStatusMachineName, $issueStatusMachineNames);
 
             $issue = Issue::findOrFail($issueId);
             if ($issue) {
                 DB::update('update issues set status_id = ? where id = ?', [$statusId, $issueId]);
-                if (Request::get('newNextIssueId')) {
-                    $newNextIssueId = trim(strip_tags(Request::get('newNextIssueId')));
-                } else {
-                    $newNextIssueId = NULL; // have been moved to the bottom of the list
+                
+                $newNextIssue = NULL; // have been moved to the bottom of the list
+                if ($request->input('newNextIssueId')) {
+                    $newNextIssueId = trim(strip_tags($request->input('newNextIssueId')));
+                    $newNextIssue = Issue::findOrFail($newNextIssueId);
                 }
-        
-                $newNextIssue = Issue::findOrFail($newNextIssueId);
+
                 $issueService = new IssueService(new Issue());
                 $reorderResult = $issueService->reorder($issue, $newNextIssue);
                 if($reorderResult)
@@ -262,13 +262,13 @@ class IssuesController extends Controller
     public function sprintchange()
     {
         $result = "There was an error updating the issue's sprint association";
-        $issueId = (int) trim(Request::get('issueId'));
-        $projectId = (int) trim(Request::get('projectId'));
+        $issueId = (int) trim($request->input('issueId'));
+        $projectId = (int) trim($request->input('projectId'));
         $issue = Issue::findOrFail($issueId);
         $currentSprintIdOfIssue = $issue->sprint_id;
-        $machineNameOfNewSprint = trim(strip_tags(Request::get('machineNameOfNewSprint')));
-        $nextIssueIdInNewSprint = trim(strip_tags(Request::get('nextIssueId')));
-        $prevIssueIdInNewSprint = trim(strip_tags(Request::get('prevIssueId')));
+        $machineNameOfNewSprint = trim(strip_tags($request->input('machineNameOfNewSprint')));
+        $nextIssueIdInNewSprint = trim(strip_tags($request->input('nextIssueId')));
+        $prevIssueIdInNewSprint = trim(strip_tags($request->input('prevIssueId')));
 
         $sprints = Project::findOrFail($issue->project_id)->getSprints();
 
@@ -328,9 +328,9 @@ class IssuesController extends Controller
 
     public function sortOrderPriority()
     {
-        $issueId = (int) trim(Request::get('issueId'));
-        if (Request::get('newNextIssueId')) {
-            $newNextIssueId = trim(strip_tags(Request::get('newNextIssueId')));
+        $issueId = (int) trim($request->input('issueId'));
+        if ($request->input('newNextIssueId')) {
+            $newNextIssueId = trim(strip_tags($request->input('newNextIssueId')));
         } else {
             $newNextIssueId = NULL; // have been moved to the bottom of the list
         }
@@ -353,17 +353,17 @@ class IssuesController extends Controller
     public function sortorderOdd()
     {
         $result = "There was an error updating the issue's sort order";
-        $issueId = (int) trim(Request::get('issueId'));
-        $projectId = (int) trim(Request::get('projectId'));
+        $issueId = (int) trim($request->input('issueId'));
+        $projectId = (int) trim($request->input('projectId'));
 
-        if (Request::get('newPrevIssueId')) {
-            $newPrevIssueIdInSprint = trim(strip_tags(Request::get('newPrevIssueId')));
+        if ($request->input('newPrevIssueId')) {
+            $newPrevIssueIdInSprint = trim(strip_tags($request->input('newPrevIssueId')));
         } else {
             $newPrevIssueIdInSprint = NULL;
         }
 
-        if (Request::get('newNextIssueId')) {
-            $newNextIssueIdInSprint = trim(strip_tags(Request::get('newNextIssueId')));
+        if ($request->input('newNextIssueId')) {
+            $newNextIssueIdInSprint = trim(strip_tags($request->input('newNextIssueId')));
         } else {
             $newNextIssueIdInSprint = NULL;
         }

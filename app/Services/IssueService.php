@@ -32,6 +32,9 @@ class IssueService implements IIssueService
 
     public function reorder($reorderedIssue, $newNextIssue)
     {
+        if(is_null($newNextIssue)) {
+            return false;
+        }
         $moveUp = $reorderedIssue->priority_order > $newNextIssue->priority_order;
         if ($moveUp) {
             return $this->reorderDesc($reorderedIssue, $newNextIssue);
