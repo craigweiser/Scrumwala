@@ -13,7 +13,7 @@ use App\Sprint;
 use Auth;
 use DB;
 use Illuminate\Support\Facades\Redirect;
-use Request;
+use Illuminate\Http\Request;
 use Response;
 use Session;
 use App\Services\IssueService as IssueService;
@@ -103,8 +103,11 @@ class IssuesController extends Controller
      *
      * @return Response
      */
-    public function show(Issue $issue)
+    public function show(Request $request, Issue $issue)
     {
+        if($request->ajax()){
+            return view('issues.common.show')->with('issue', $issue);
+        }
         return view('issues.show')->with('issue', $issue);
     }
 

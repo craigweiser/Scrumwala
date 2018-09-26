@@ -1,7 +1,7 @@
 <ul id="{{$status}}" class="connectedSortable list-unstyled sprint-list">
     @foreach($issues as $issue)
         <li class="ui-state-default" data-id="{{$issue->id}}">
-            <a href="/issues/{{$issue->id}}">
+            <a href="/issues/{{$issue->id}}" class="show-issue" data-issue-id="{{$issue->id}}">
                 <span class="issue-id">#{{$issue->id}}</span>
                 <span @if($status == 'complete') class="strikethrough" @endif>
                     {{$issue->title}}

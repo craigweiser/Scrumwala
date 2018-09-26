@@ -73,6 +73,7 @@
                 });
             }
         });
+        @include('common-js.show-issues-js')
         @include('common-js.add-issues-js')
     });
 </script>
