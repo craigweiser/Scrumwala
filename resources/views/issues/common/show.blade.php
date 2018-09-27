@@ -1,7 +1,7 @@
 @if($issue)
     <div class="clearfix container-fluid main-content">
         <h3 id="issue-title" data-id="{{$issue->id}}">{{$issue->title}}</h3>
-        <a href="/issues/{{$issue->id}}/edit">Edit</a>
+        <a href="/issues/{{$issue->id}}/edit" class="edit-issue btn btn-default btn-sm">Edit</a>
         <p>Description: {{$issue->description}}</p>
         <p>Status: {{App\IssueStatus::find($issue->status_id)->label}}</p>
         <?php $issueDeadline = $issue->deadline;?>

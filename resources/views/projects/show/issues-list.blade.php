@@ -9,7 +9,12 @@
             </a>
             @include('issues.issue.deadline')
             <div class="row">
-                <div class="col-md-offset-6 col-md-6">
+                <div class="col-md-6">
+                    <a href="/issues/{{$issue->id}}/edit" class="edit-issue btn btn-default btn-xs">
+                        Edit
+                    </a>
+                </div>
+                <div class="col-md-6">
                     <div class="btn-group pull-right">
                         <span class="issue-type {{$issue->issueType->machine_name}}">
                             {{$issue->issueType->label}}

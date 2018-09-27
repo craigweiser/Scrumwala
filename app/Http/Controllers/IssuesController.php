@@ -116,7 +116,7 @@ class IssuesController extends Controller
      *
      * @return Response
      */
-    public function edit(Issue $issue)
+    public function edit(Request $request, Issue $issue)
     {
         $projectNames = Project::lists('name', 'id')->all();
 
@@ -127,14 +127,18 @@ class IssuesController extends Controller
         krsort($issueStatusLabels);
 
         $deadline = ($issue->deadline) ? $issue->deadline->format('Y-m-d') : null;
+        $viewParams = [
+            'issue' => $issue,
+            'projectNames' => $projectNames,
+            'issueTypeLabels' => $issueTypeLabels,
+            'issueStatusLabels' => $issueStatusLabels,
+            'deadline' => $deadline,
+        ];
 
-        return view('issues.edit')->with(
-                        ['issue' => $issue,
-                            'projectNames' => $projectNames,
-                            'issueTypeLabels' => $issueTypeLabels,
-                            'issueStatusLabels' => $issueStatusLabels,
-                            'deadline' => $deadline,
-        ]);
+        if($request->ajax()) {
+            return view('issues.common.edit')->with($viewParams);
+        }
+        return view('issues.edit')->with($viewParams);
     }
 
     /**
