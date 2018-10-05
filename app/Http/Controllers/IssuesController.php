@@ -31,24 +31,24 @@ class IssuesController extends Controller
      *
      * @return Response
      */
-    public function index()
+    public function index($filter = 'active')
     {
-        $issuesCount = Issue::latest()->get()->count();
-        $issues = DB::table('issues')->orderBy('created_at', 'desc')->paginate(15);
+        $issueStatuses = [2,3];
+        if($filter == 'all') $issueStatuses = [1,2,3,4];
+        if($filter == 'andCompleted') $issueStatuses = [2,3,4];
+        //$issuesCount = Issue::latest()->get()->count();
+        $issues = Issue::with('issueStatus', 'issueType', 'project', 'sprint')
+            ->whereIn('status_id', $issueStatuses)
+            ->orderBy('priority_order', 'asc')
+            ->paginate(15);
 
         $issues->each(function ($issue) {
             $issue->id = (int) $issue->id;
-            $issue->projectName = Project::find($issue->project_id)->name;
-            $issue->statusLabel = IssueStatus::find($issue->status_id)->label;
-            $issue->typeLabel = IssueType::find($issue->type_id)->label;
-            unset($issue->project_id);
-            unset($issue->status_id);
-            unset($issue->type_id);
         });
 
         return view('issues.index')->with([
-                    'issuesCount' => $issuesCount,
-                    'issues' => $issues]);
+                    'issues' => $issues,
+                    'filter' => $filter]);
     }
 
     /**
@@ -330,7 +330,7 @@ class IssuesController extends Controller
         return $result;
     }
 
-    public function sortOrderPriority()
+    public function sortOrderPriority(Request $request)
     {
         $issueId = (int) trim($request->input('issueId'));
         if ($request->input('newNextIssueId')) {

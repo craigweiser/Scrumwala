@@ -20,6 +20,7 @@ Route::post('issues/quickAdd', 'IssuesController@quickAdd');
 Route::post('issues/sortorder', 'IssuesController@sortorder');
 Route::post('issues/priorityorder', 'IssuesController@sortOrderPriority');
 Route::resource('issues', 'IssuesController');
+Route::get('issues/filtered/{filter?}', 'IssuesController@index');
 Route::resource('issuestatuses', 'IssueStatusesController');
 
 /* Sprints */

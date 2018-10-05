@@ -69,14 +69,14 @@ class Issue extends Model {
 	 * An issue has one sprint
 	 */
 	public function sprint() {
-		return $this->hasOne('App\Sprint');
+		return $this->hasOne('App\Sprint', 'id', 'sprint_id');
 	}
 
 	/**
 	 * An issue status belongs to an issue
 	 */
 	public function issueStatus() {
-		return $this->belongsTo('App\Issue');
+		return $this->hasone('App\IssueStatus', 'id', 'status_id');
 	}
 
 }
