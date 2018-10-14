@@ -5,6 +5,7 @@ body, label, .checkbox label {
 }
 body {
   background: #fff;
+  padding-top: 75px;
 }
 a {
   color:#2185C5;
@@ -22,7 +23,7 @@ a {
 .date {
 }
 .date-created-at {
-  @extend .date;
+  @extend .date !optional;
   color:#7C7C7C;
 }
 .project-title {
