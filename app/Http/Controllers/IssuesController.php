@@ -40,7 +40,7 @@ class IssuesController extends Controller
         $issues = Issue::with('issueStatus', 'issueType', 'project', 'sprint')
             ->whereIn('status_id', $issueStatuses)
             ->orderBy('priority_order', 'asc')
-            ->paginate(15);
+            ->get();
 
         $issues->each(function ($issue) {
             $issue->id = (int) $issue->id;

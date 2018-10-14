@@ -1,10 +1,14 @@
 <li class="ui-state-default" data-id="{{$issue->id}}">
-    <a href="/issues/{{$issue->id}}" class="show-issue">
+    <p><a href="/issues/{{$issue->id}}" class="show-issue">
         <span class="issue-id">#{{$issue->id}}</span>
         <span class="@if(App\IssueStatus::find($issue->status_id)->label  == 'Complete') strikethrough @endif">
             {{$issue->title}}
         </span>
     </a>
+    </p>
+    <p>
+        {{$issue->project->name}}
+    </p>
     <div class="row issue-actions-attributes">
         <div class="col-md-4 issue-actions">
             <div class="btn-group pull-left">

@@ -11,30 +11,15 @@
         @if($filter != 'andCompleted')
         <a class="btn btn-default btn-sm" href="{{action('IssuesController@index', ['filter' => 'andCompleted'])}}">+ Completed</a>
         @endif
-        <table class="table table-hover">
-            <thead>
-            <tr>
-                <th>#</th>
-                <th>Title</th>
-                <th>Status</th>
-                <th>Type</th>
-                <th>Project</th>
-                <th>Sprint</th>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach($issues as $issue)
-                <tr>
-                    <td><a href="/issues/{{$issue->id}}">{{$issue->id}}</a></td>
-                    <td><a href="/issues/{{$issue->id}}">{{$issue->title}}</a></td>
-                    <td>{{$issue->issueStatus->label}}</td>
-                    <td>{{$issue->issueType->label}}</td>
-                    <td>{{$issue->project->name}}</td>
-                    <td>{{$issue->sprint->name}}</td>
-                </tr>
-            @endforeach
-            </tbody>
-        </table>
-        <?php echo $issues->render() ?>
+        <div class="col-md-12 project-plan main-content">
+            <div class="container-fluid col-md-10">
+                <ul class="connectedSortable list-unstyled sprint-list">
+                    @foreach($issues as $issue)
+                        @include('projects.common.issues')
+                    @endforeach
+                </ul>
+            </div>
+        </div>
     </div>
 @endsection
+@include('issues.js')
