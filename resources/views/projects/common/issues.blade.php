@@ -1,14 +1,16 @@
 <li class="ui-state-default" data-id="{{$issue->id}}">
     <p><a href="/issues/{{$issue->id}}" class="show-issue">
         <span class="issue-id">#{{$issue->id}}</span>
-        <span class="@if(App\IssueStatus::find($issue->status_id)->label  == 'Complete') strikethrough @endif">
+        <span class="@if($issue->issueStatus->label  == 'Complete') strikethrough @endif">
             {{$issue->title}}
         </span>
     </a>
     </p>
+    @if(!isset($project))
     <p>
         {{$issue->project->name}}
     </p>
+    @endif
     <div class="row issue-actions-attributes">
         <div class="col-md-4 issue-actions">
             <div class="btn-group pull-left">
@@ -29,11 +31,11 @@
                         </span>
                     </span>
                 @endif
-                <span class="issue-type {{App\IssueType::findOrFail($issue->type_id)->machine_name}}">
-                    {{App\IssueType::findOrFail($issue->type_id)->label}}
+                <span class="issue-type {{$issue->issueType->machine_name}}">
+                    {{$issue->issueType->label}}
                 </span>
-                <span class="issue-status {{App\IssueStatus::findOrFail($issue->status_id)->machine_name}}">
-                    {{App\IssueStatus::findOrFail($issue->status_id)->label}}
+                <span class="issue-status {{$issue->issueType->machine_name}}">
+                    {{$issue->issueStatus->label}}
                 </span>
             </div>
         </div>
