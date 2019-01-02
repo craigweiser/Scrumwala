@@ -127,6 +127,7 @@ class IssuesController extends Controller
         krsort($issueStatusLabels);
 
         $deadline = ($issue->deadline) ? $issue->deadline->format('Y-m-d') : null;
+        $estimation = ($issue->estimation) ? $issue->estimation : null;
         $viewParams = [
             'issue' => $issue,
             'projectNames' => $projectNames,
@@ -149,6 +150,9 @@ class IssuesController extends Controller
      */
     public function update(Issue $issue, IssueRequest $request)
     {
+        if($request->estimation == '') { 
+            $request->replace(['estimation' => null]);
+        }
         $issue->update($request->all());
         Session::flash('issueUpdate', $issue->title);
         return redirect('projects/' . $issue->project_id);

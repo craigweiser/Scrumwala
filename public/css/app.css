@@ -5694,6 +5694,9 @@ a {
     .project-work .sprint-list li span.issue-type {
       margin-right: 4px;
       font-size: 0.9em; }
+    .project-work .sprint-list li span.issue-estimation {
+      padding: 0.2rem 0.4rem;
+      border: 1px solid #000; }
 
 .ui-state-default {
   border: 1px solid #d3d3d3; }

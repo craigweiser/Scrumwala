@@ -16,11 +16,6 @@
 </div>
 
 <div class="form-group">
-    {!! Form::label('deadline', 'Deadline:') !!}
-    {!! Form::input('date', 'deadline', $deadline, ['class' => 'form-control']) !!}
-</div>
-
-<div class="form-group">
     {!! Form::label('status_id', 'Status:') !!}
     {!! Form::select('status_id', $issueStatusLabels, null, ['class' => 'form-control']) !!}
 </div>
@@ -28,6 +23,16 @@
 <div class="form-group">
     {!! Form::label('type_id', 'Type:') !!}
     {!! Form::select('type_id', $issueTypeLabels, null, ['class' => 'form-control']) !!}
+</div>
+
+<div class="form-group">
+        {!! Form::label('estimation', 'Estimate:') !!}
+        {!! Form::input('number', 'estimation', $estimation, ['class' => 'form-control']) !!}
+</div>
+    
+<div class="form-group">
+    {!! Form::label('deadline', 'Deadline:') !!}
+    {!! Form::input('date', 'deadline', $deadline, ['class' => 'form-control']) !!}
 </div>
 
 <div class="form-group">
