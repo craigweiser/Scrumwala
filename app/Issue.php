@@ -14,6 +14,7 @@ class Issue extends Model {
 		'title',
 		'description',
 		'deadline',
+		'estimation',
 		'project_id',
 		'user_id',
 		'type_id',

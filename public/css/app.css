@@ -5719,12 +5719,16 @@ a {
       border-radius: 5px;
       color: #fff; }
     .project-plan .sprint-list li span.issue-status {
+      margin-right: 4px;
       font-size: 0.9em; }
     .project-plan .sprint-list li span.issue-type {
       margin-right: 4px;
       font-size: 0.9em; }
     .project-plan .sprint-list li span.issue-deadline {
       margin-right: 4px; }
+    .project-plan .sprint-list li span.issue-estimation {
+      padding: 0.2rem 0.4rem;
+      border: 1px solid #000; }
     .project-plan .sprint-list li .issue-actions-attributes {
       margin-top: 10px; }
       .project-plan .sprint-list li .issue-actions-attributes .issue-actions button {

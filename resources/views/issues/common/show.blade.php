@@ -4,9 +4,10 @@
         <a href="/issues/{{$issue->id}}/edit" class="edit-issue btn btn-default btn-sm">Edit</a>
         <p>Description: {{$issue->description}}</p>
         <p>Status: {{App\IssueStatus::find($issue->status_id)->label}}</p>
+        <p>Estimate: {{$issue->estimation or '-'}}</p>
         <?php $issueDeadline = $issue->deadline;?>
         @if($issueDeadline)
-            Deadline:   {{$issueDeadline->year}}-{{$issueDeadline->month}}-{{$issueDeadline->day}}
+        <p>Deadline:   {{$issueDeadline->year}}-{{$issueDeadline->month}}-{{$issueDeadline->day}}</p>
         @endif
         <p>Project: {{App\Project::find($issue->project_id)->name}}</p>
     </div>

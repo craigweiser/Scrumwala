@@ -133,6 +133,7 @@ class IssuesController extends Controller
             'issueTypeLabels' => $issueTypeLabels,
             'issueStatusLabels' => $issueStatusLabels,
             'deadline' => $deadline,
+            'estimation' => $estimation
         ];
 
         if($request->ajax()) {

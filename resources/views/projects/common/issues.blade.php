@@ -37,6 +37,9 @@
                 <span class="issue-status {{$issue->issueType->machine_name}}">
                     {{$issue->issueStatus->label}}
                 </span>
+                <span class="issue-estimation">
+                    {{$issue->estimation or '-'}}
+                </span>
             </div>
         </div>
     </div>

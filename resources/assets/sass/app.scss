@@ -198,6 +198,7 @@ a {
         color:#fff;
       }
       span.issue-status {
+        margin-right:4px;
         font-size:0.9em;
       }
       span.issue-type {
@@ -206,6 +207,10 @@ a {
       }
       span.issue-deadline {
         margin-right:4px;
+      }
+      span.issue-estimation {
+        padding: 0.2rem 0.4rem;
+        border: 1px solid #000;
       }
       .issue-actions-attributes {
         margin-top:10px;
