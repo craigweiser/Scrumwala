@@ -15,6 +15,7 @@ class Sprint extends Model {
 		'machine_name',
 		'from_date',
 		'to_date',
+		'capacity',
 		'status_id',
 		'project_id',
 		'sort_order',

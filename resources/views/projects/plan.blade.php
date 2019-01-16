@@ -65,23 +65,24 @@
                     @foreach(App\Project::find($project->id)->getSprints() as $sprint)
                         <div class="row sprint-header"
                             data-machine-name="{{$sprint->machine_name}}">
-                            <div class="col-md-4">
-
+                            <div class="col-md-8">
                                 <h3 class="sprint-name"
                                     data-machine-name="{{$sprint->machine_name}}">
                                     <img class="toggle" width="18" height="18"
                                     src="{{asset('css/icons/ic_keyboard_arrow_right_black_36dp.png')}}" />
                                     {{$sprint->name}}
-                                    <span class="grey issue-count">
-                                        ({{App\Utils::getIssueCountInSprint($sprint->id)}})
+                                    @if($sprint->capacity > 0)
+                                    <span class="badge">
+                                        {{$sprint->capacity}}
+                                    </span>
+                                    @endif
+                                        <span class="badge">
+                                        {{App\Utils::getIssueCountInSprint($sprint->id)}}
                                     </span>
                                     @if($sprint->status_id == App\SprintStatus::getIdByMachineName('active'))
                                         <span class="badge">Active Sprint</span>
                                     @endif
                                 </h3>
-
-                            </div>
-                            <div class="col-md-4">
                             </div>
                             <div class="col-md-4 date-range">
                                 @if($sprint->from_date && $sprint->to_date &&

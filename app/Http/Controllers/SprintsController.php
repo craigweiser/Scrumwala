@@ -29,6 +29,7 @@ class SprintsController extends Controller {
             Sprint::create([
                 'name' => $request->name,
                 'machine_name' => strtolower(preg_replace('/\s+/', '', $request->name)),
+                'capacity' => $request->capacity,
                 'status_id' => SprintStatus::getIdByMachineName('inactive'),
                 'project_id' => (int) $request->project_id,
                 'sort_order' => (int) DB::table('sprints')->where('project_id', '=', $request->project_id)->max('sort_order') + 1
