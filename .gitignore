@@ -5,3 +5,4 @@
 /storage/logs/*
 npm-debug.log
 /nbproject
+/report

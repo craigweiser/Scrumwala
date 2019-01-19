@@ -15,6 +15,7 @@ use DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
 use Response;
+use Input;
 use Session;
 use App\Services\IssueService as IssueService;
 
@@ -151,9 +152,11 @@ class IssuesController extends Controller
     public function update(Issue $issue, IssueRequest $request)
     {
         if($request->estimation == '') { 
-            $request->replace(['estimation' => null]);
+            Input::replace(['estimation' => null]);
         }
-        $issue->update($request->all());
+        \Log::debug('Request info: ' . json_encode($request->all()));
+        $result = $issue->update($request->all());
+        \Log::debug('Update result: ' . $result);
         Session::flash('issueUpdate', $issue->title);
         return redirect('projects/' . $issue->project_id);
     }
