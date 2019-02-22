@@ -12,6 +12,9 @@ Route::get('/home', function(){
 Route::get('projects/{projects}/plan', 'ProjectsController@plan');
 Route::resource('projects', 'ProjectsController');
 
+/* Categories */
+Route::resource('categories', 'CategorieController');
+
 /* Issues */
 Route::get('issues/search', 'IssuesController@search');
 Route::post('issues/statuschange', 'IssuesController@statuschange');
