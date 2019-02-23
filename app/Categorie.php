@@ -26,4 +26,8 @@ class Categorie extends Model
     {
         return static::find($id)->delete();
     }
+
+    public function project() {
+		return $this->belongsTo('App\Project');
+	}
 }

@@ -13,6 +13,7 @@ Route::get('projects/{projects}/plan', 'ProjectsController@plan');
 Route::resource('projects', 'ProjectsController');
 
 /* Categories */
+Route::get('categories/{project}', 'CategorieController@projectCategories');
 Route::resource('categories', 'CategorieController');
 
 /* Issues */

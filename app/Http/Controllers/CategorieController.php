@@ -7,16 +7,20 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Repositories\Categories\CategorieInterface as CategorieInterface;
+use App\Repositories\Projects\ProjectInterface as ProjectInterface;
 
 class CategorieController extends Controller
 {
+    protected $categorie;
+    protected $project;
 
     /**
      * Constructor
      */
-    public function __construct(CategorieInterface $categorie)
+    public function __construct(CategorieInterface $categorie, ProjectInterface $project)
     {
         $this->categorie = $categorie;
+        $this->project = $project;
     }
 
     /**
@@ -26,7 +30,13 @@ class CategorieController extends Controller
      */
     public function index()
     {
-        $categories = $this->categorie->getAll();
+        return view('categories.noproject');
+    }
+
+    public function projectCategories($projectId)
+    {
+
+        $categories = $this->project->findProjectWithCategories($projectId);
         return view('categories.index', ['categories' => $categories]);
     }
 

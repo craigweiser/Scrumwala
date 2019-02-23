@@ -87,6 +87,10 @@ class Project extends Model {
 		return $this->hasMany('App\Sprint');
 	}
 
+	public function categories() {
+		return $this->hasMany('App\Categorie');
+	}
+
 	/**
 	 * Get the list of sprints from a project that are not complete
 	 * @return collection $sprints
@@ -147,5 +151,15 @@ class Project extends Model {
 	public function getBacklogSprint() {
 		return $this->sprints()->where('machine_name', '=', 'backlog')->get()->first();
 
+	}
+
+	public function findProjectWithCategories($id) {
+		\Log::debug('Looking for project with ID: ' .$id);
+		$projectToBeFound = static::find($id);
+		$emptyArray = [];
+		if(isset($projectToBeFound)) {
+			return $projectToBeFound->categories()->get();
+		}
+		return $emptyArray;
 	}
 }
