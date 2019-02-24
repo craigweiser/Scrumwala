@@ -153,13 +153,12 @@ class Project extends Model {
 
 	}
 
-	public function findProjectWithCategories($id) {
-		\Log::debug('Looking for project with ID: ' .$id);
-		$projectToBeFound = static::find($id);
-		$emptyArray = [];
-		if(isset($projectToBeFound)) {
-			return $projectToBeFound->categories()->get();
-		}
-		return $emptyArray;
+	public function findProject($id)
+	{
+		return static::find($id);
+	}
+
+	public function findProjectCategories() {
+		return $this->categories()->get();
 	}
 }

@@ -14,6 +14,7 @@ Route::resource('projects', 'ProjectsController');
 
 /* Categories */
 Route::get('categories/{project}', 'CategorieController@projectCategories');
+Route::get('categories/create/{project}', 'CategorieController@createProjectCategorie');
 Route::resource('categories', 'CategorieController');
 
 /* Issues */

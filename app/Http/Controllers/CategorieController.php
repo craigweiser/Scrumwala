@@ -19,6 +19,7 @@ class CategorieController extends Controller
      */
     public function __construct(CategorieInterface $categorie, ProjectInterface $project)
     {
+        $this->middleware('auth');
         $this->categorie = $categorie;
         $this->project = $project;
     }
@@ -35,9 +36,9 @@ class CategorieController extends Controller
 
     public function projectCategories($projectId)
     {
-
-        $categories = $this->project->findProjectWithCategories($projectId);
-        return view('categories.index', ['categories' => $categories]);
+        $currentProject = $this->project->findProject($projectId);
+        $categories = $currentProject->findProjectCategories();
+        return view('categories.index', ['project' => $currentProject, 'categories' => $categories]);
     }
 
     /**
@@ -50,6 +51,12 @@ class CategorieController extends Controller
         //
     }
 
+    public function createProjectCategorie($id)
+    {
+        $project = $this->project->findProject($id);
+        return view('categories.create', ['project' => $project]);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -58,7 +65,9 @@ class CategorieController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $categorie = new \App\Categorie($request->all());
+        $categorieProject = $this->project->findProject($request->project_id);
+        $categorieProject->categories()->save($categorie);
     }
 
     /**

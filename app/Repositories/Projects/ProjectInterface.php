@@ -4,5 +4,6 @@ namespace App\Repositories\Projects;
 
 interface ProjectInterface 
 {
-    public function findProjectWithCategories($id);
+    public function findProject($id);
+    public function findProjectCategories();
 }

@@ -12,11 +12,15 @@ class CategorieControllerTest extends TestCase
     public function testIndexWithNoCategories()
     {
         $this->initAuth();
-        $projectId = 1;
-        $this->visit('/categories/' . $projectId)
+        $project = factory(App\Project::class)->create([
+            'user_id' => $this->user->id
+        ]);
+        $this->visit('/categories/' . $project->id)
             ->see('Projects')
-            ->see('Project Categories')
-            ->see('not have any categories');
+            ->see('Categories for ' . $project->name)
+            ->see('not have any categories')
+            ->click('add categorie')
+            ->seePageIs('/categories/create/'.$project->id);
     }
 
     public function testIndexWithoutProject()
@@ -40,6 +44,35 @@ class CategorieControllerTest extends TestCase
         ]);
         $response = $this->visit('/categories/' . $project->id)
             ->see($categorie->name);
+    }
+
+    public function testCreateCategorie()
+    {
+        $this->initAuth();
+        $project = factory(App\Project::class)->create([
+            'user_id' => $this->user->id
+        ]);
+        $this->visit('/categories/create/' . $project->id)
+            ->see('Create a Categorie')
+            ->see('Create Categorie')
+            ->see('project_id')
+            ->see($project->id)
+            ->see('name')
+            ->see('description')
+            ->see('color');
+    }
+
+    public function testCreatingCategorie()
+    {
+        $this->initAuth();
+        $project = factory(App\Project::class)->create([
+            'user_id' => $this->user->id
+        ]);
+        $categorie = factory(App\Categorie::class)->make([
+            'project_id' => $project->id
+        ]);
+        $this->post('/categories', $categorie->toArray());
+        $this->seeInDatabase('categories', $categorie->toArray());
     }
 
     private function initAuth()

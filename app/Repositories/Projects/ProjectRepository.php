@@ -14,9 +14,14 @@ class ProjectRepository implements ProjectInterface
         $this->project = $project;
     }
 
-    public function findProjectWithCategories($id)
+    public function findProject($id)
     {
-        return $this->project->findProjectWithCategories($id);
+        return $this->project->findProject($id);
+    }
+
+    public function findProjectCategories()
+    {
+        return $this->project->findProjectCategories();
     } 
     
 }
