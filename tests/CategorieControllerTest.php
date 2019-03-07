@@ -68,10 +68,16 @@ class CategorieControllerTest extends TestCase
         $project = factory(App\Project::class)->create([
             'user_id' => $this->user->id
         ]);
+        $this->seeInDatabase('projects', $project->toArray());
         $categorie = factory(App\Categorie::class)->make([
             'project_id' => $project->id
         ]);
-        $this->post('/categories', $categorie->toArray());
+        $this->visit('/categories/create/' . $project->id)
+            ->type($categorie->name, 'name')
+            ->type($categorie->description, 'description')
+            ->type($categorie->color, 'color')
+            ->press('Create Categorie');
+        $this->assertResponseOk();
         $this->seeInDatabase('categories', $categorie->toArray());
     }
 

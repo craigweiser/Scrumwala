@@ -68,6 +68,7 @@ class CategorieController extends Controller
         $categorie = new \App\Categorie($request->all());
         $categorieProject = $this->project->findProject($request->project_id);
         $categorieProject->categories()->save($categorie);
+        echo 'saved categorie :-)';
     }
 
     /**
