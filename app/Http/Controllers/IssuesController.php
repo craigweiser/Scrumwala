@@ -155,7 +155,14 @@ class IssuesController extends Controller
             Input::replace(['estimation' => null]);
         }
         \Log::debug('Request info: ' . json_encode($request->all()));
+        $previousIssueStatus = $issue->status_id;
+        $newIssueStatus = $request->status_id;
+        \Log::debug('Status change: old status: ' . $previousIssueStatus . ' / new status:'. $newIssueStatus);
         $result = $issue->update($request->all());
+        if($previousIssueStatus != $newIssueStatus) {
+            $result = $this->resortIssueOnStatus($issue);
+            \Log::debug('Resort was ' . $result);
+        }
         \Log::debug('Update result: ' . $result);
         Session::flash('issueUpdate', $issue->title);
         return redirect('projects/' . $issue->project_id);
@@ -454,5 +461,23 @@ class IssuesController extends Controller
         $issue = Issue::create($request->all());
 
         return $issue;
+    }
+
+    private function resortIssueOnStatus(Issue $issue) {
+        $topPrioIssueOfProjectWithCurrentStatus = Issue::where('status_id', $issue->status_id)
+            ->where('project_id', $issue->project_id)
+            ->orderby('priority_order')
+            ->first();
+        if(!empty($topPrioIssueOfProjectWithCurrentStatus)) {
+            \Log::debug('Top issue of status: ' .  $topPrioIssueOfProjectWithCurrentStatus->title);
+            $issueService = new IssueService(new Issue());
+            $result = $issueService->reorder($issue, $topPrioIssueOfProjectWithCurrentStatus);
+            if ($result) {
+                return true;
+            }
+            return false;
+        } else {
+            \Log::debug('No issues found');        
+        }
     }
 }
