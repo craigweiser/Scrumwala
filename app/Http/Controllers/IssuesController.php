@@ -439,26 +439,27 @@ class IssuesController extends Controller
         }
 
         $backlogSprintId = (int) $backlogsprint->id;
-        //$latestIssueInSprint = Sprint::findOrFail($backlogSprintId)->getLatestIssueInSprint();
 
         $issueService = new IssueService(new Issue());
-        $priorityOrder = $issueService->getLastPriorityOrder();
+        $lastPriorityOrder = $issueService->getLastPriorityOrder();
+        $firstPriorityOrder = $issueService->getFirstPriorityOrderByProject($request->project_id);
 
 
         $request['user_id'] = Auth::user()->id;
         $request['sprint_id'] = $backlogSprintId;
         $request['status_id'] = $todoIssueStatusId;
 
-        if ($priorityOrder) {
-            //$request['sort_prev'] = $latestIssueInSprint->id;
-            $priorityOrder++;
+        if ($lastPriorityOrder) {
+            $lastPriorityOrder++;
         } else {
-            $priorityOrder = 1;
+            $lastPriorityOrder = 1;
         }
-        $request['priority_order'] = $priorityOrder;
+        $request['priority_order'] = $lastPriorityOrder;
 
 
         $issue = Issue::create($request->all());
+        $newNextIssue = Issue::where('priority_order', $firstPriorityOrder)->first();
+        $issueService->reorder($issue, $newNextIssue);
 
         return $issue;
     }

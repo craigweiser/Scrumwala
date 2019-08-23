@@ -30,6 +30,11 @@ class IssueService implements IIssueService
         return $this->_issue->max('priority_order');
     }
 
+    public function getFirstPriorityOrderByProject($projectId) {
+        return $this->_issue->where('project_id', $projectId)
+                            ->min('priority_order');
+    }
+
     public function reorder($reorderedIssue, $newNextIssue)
     {
         if(is_null($newNextIssue)) {
