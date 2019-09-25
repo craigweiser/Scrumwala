@@ -75,6 +75,7 @@
         });
         @include('common-js.show-issues-js')
         @include('common-js.add-issues-js')
+        @include('common-js.edit-subissues-js')   
     });
 </script>
 @endsection
