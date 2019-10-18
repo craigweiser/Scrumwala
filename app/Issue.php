@@ -80,7 +80,7 @@ class Issue extends Model {
 		return $this->hasone('App\IssueStatus', 'id', 'status_id');
 	}
 
-	public function subissue() {
+	public function subissues() {
 		return $this->hasMany('App\SubIssue');
 	}
 
