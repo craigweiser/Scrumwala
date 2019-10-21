@@ -39,6 +39,17 @@ $('body').on('click', '#add-subissue', function() {
         $('#subissue').val('');
       }, "json");
 });
-$('body').on('click', '#remove-subissue', function() {
-    alert('subissue remove button clicked')
+$('body').on('click', '.remove-subisse-item', function() {
+    var subissueItemToDelete = $(this).parent();
+    var subissue_id = $(this).data('subissueId');
+    console.log('subissue_id: ' + subissue_id);
+    $.ajax( {
+        type: "DELETE",
+        url: "/subissues/" + subissue_id, 
+        data: {"_token": "{{ csrf_token() }}", "_method": "DELETE"}
+    }).done(function( result ) {
+        console.log("Result of the delete request was: " + result.msg );
+        // delete issue from list
+        subissueItemToDelete.remove();
+    });
 });

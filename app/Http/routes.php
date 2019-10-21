@@ -28,7 +28,7 @@ Route::resource('issues', 'IssuesController');
 Route::get('issues/filtered/{filter?}', 'IssuesController@index');
 Route::resource('issuestatuses', 'IssueStatusesController');
 
-Route::post('subissues', 'SubIssuesController@store');
+Route::resource('subissues', 'SubIssuesController');
 
 /* Sprints */
 Route::post('sprints/add', 'SprintsController@add');
