@@ -41,8 +41,8 @@ $('body').on('click', '#add-subissue', function() {
 });
 $('body').on('click', '.remove-subisse-item', function() {
     var subissueItemToDelete = $(this).parent();
-    var subissue_id = $(this).data('subissueId');
-    console.log('subissue_id: ' + subissue_id);
+    var subissue_id = subissueItemToDelete.data('subissueId');
+    console.log('subissue_id to be deleted: ' + subissue_id);
     $.ajax( {
         type: "DELETE",
         url: "/subissues/" + subissue_id, 
@@ -52,4 +52,33 @@ $('body').on('click', '.remove-subisse-item', function() {
         // delete issue from list
         subissueItemToDelete.remove();
     });
+});
+$('body').on('click', '.subissue-checkbox', function() {
+    var subissueItemToMarkAsDone = $(this).parent();
+    var subissue_id = subissueItemToMarkAsDone.data('subissueId');
+    if ($(this).is(":checked")) {
+        console.log('subissue_id to be marked as done: ' + subissue_id);
+        $.ajax( {
+            type: "PUT",
+            url: "/subissues/done/" + subissue_id, 
+            data: {"_token": "{{ csrf_token() }}", "_method": "PUT"}
+        }).done(function( result ) {
+            console.log("Result of the put request was: " + result.msg );
+            if(result.msg == 'ok') {
+                // add done label
+            }
+        });
+    } else {
+        console.log('subissue is already done mark as not done: ' +  subissue_id);
+        $.ajax( {
+            type: "PUT",
+            url: "/subissues/todo/" + subissue_id, 
+            data: {"_token": "{{ csrf_token() }}", "_method": "PUT"}
+        }).done(function( result ) {
+            console.log("Result of the put request was: " + result.msg );
+            if(result.msg == 'ok') {
+                // remove done label
+            }
+        });
+    }
 });

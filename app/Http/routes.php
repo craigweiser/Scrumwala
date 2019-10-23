@@ -29,6 +29,8 @@ Route::get('issues/filtered/{filter?}', 'IssuesController@index');
 Route::resource('issuestatuses', 'IssueStatusesController');
 
 Route::resource('subissues', 'SubIssuesController');
+Route::put('subissues/done/{id}', 'SubIssuesController@markAsDone');
+Route::put('subissues/todo/{id}', 'SubIssuesController@markAsToDo');
 
 /* Sprints */
 Route::post('sprints/add', 'SprintsController@add');

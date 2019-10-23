@@ -101,4 +101,29 @@ class SubissuesController extends Controller
         $result = SubIssue::destroy($id);
         return $result;
     }
+
+    public function markAsDone($id)
+    {
+        \Log::info('Attempting to mark the subissue with the id: ' . $id .' as done');
+        return $this->toggleDone($id,true);
+    }
+
+    public function markAsToDo($id)
+    {
+        \Log::info('Attempting to mark the subissue with the id: ' . $id .' as todo');
+        return $this->toggleDone($id,true);
+    }
+
+    private function toggleDone($id, $newState)
+    {
+        $subissue = SubIssue::find($id);
+        $subissue->done = $newState;
+        if($subissue->save()) {
+            \Log::info('OK');
+            return 'ok';
+        } else {
+            return 'error';
+        }
+    }
+
 }

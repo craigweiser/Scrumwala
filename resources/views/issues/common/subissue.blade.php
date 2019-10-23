@@ -2,7 +2,7 @@
     <strong>Sub Issues:</strong><br />
     <div id="subissue-items">
         @forelse ($issue->subissues->all() as $subissue)
-            <div class="subisse-item">
+            <div class="subisse-item" data-subissue-id="{!! $subissue->id !!}">
             {!! Form::checkbox('subissue_checkbox', null, $subissue->done === 1, ['class'=>'subissue-checkbox']) !!}
             {{ $subissue->description }}
             @if($subissue->done)
@@ -10,7 +10,7 @@
                     <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                 </span>
             @endif
-            <button type="button" class="btn btn-danger btn-xs remove-subisse-item" data-subissue-id="{!! $subissue->id !!}">
+            <button type="button" class="btn btn-danger btn-xs remove-subisse-item">
                 <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
             </button>
             </div>
