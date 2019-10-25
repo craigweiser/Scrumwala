@@ -1,6 +1,9 @@
-$('body').on('click', '#add-subissue', function() {
-    var input = $('#subissue-input input').val();
-    var issue_id = $('#subissues').data('issueId');
+$('body').on('click', '.add-subissue', function() {
+    var text_input = $(this).siblings('.subissue-text');
+    var input = text_input.val();
+    var issue_id = $(this).parents('.subissues').data('issueId');
+    var subissue_items = $(this).parent().siblings('.subissue-items');
+    console.log('number of sub-issue items: ' + subissue_items.len());
     console.log('input: ' + input);
     console.log('issue_id: ' + issue_id);
     $.post( "/subissues", { subissue: input, issue_id: issue_id, "_token": "{{ csrf_token() }}"}, function( data ) {
@@ -14,7 +17,7 @@ $('body').on('click', '#add-subissue', function() {
                 class: 'subissue-item',
                 text: ' '+data.description+' '
             }
-        ).attr('data-subissue-id', data.id).prependTo('#subissue-items');
+        ).attr('data-subissue-id', data.id).prependTo(subissue_items);
         var subissueCheckbox = $(
             '<input/>',
             {
@@ -36,7 +39,7 @@ $('body').on('click', '#add-subissue', function() {
                 class: 'glyphicon glyphicon-remove',
             }
         ).attr('aria-hidden', 'true').appendTo(removeButton);
-        $('#subissue').val('');
+        text_input.val('');
       }, "json");
 });
 $('body').on('click', '.remove-subisse-item', function() {
@@ -95,6 +98,7 @@ $('body').on('click', '.subissue-checkbox', function() {
         });
     }
 });
-$('body').on('click', '#remove-subissue', function(){
-    $('#subissue').val('');
+$('body').on('click', '.remove-subissue', function(){
+    console.log('removing input field text for subissue');
+    $(this).siblings('.subissue-text').val('');
 });

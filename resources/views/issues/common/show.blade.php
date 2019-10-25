@@ -3,7 +3,9 @@
         <h3 id="issue-title" data-id="{{$issue->id}}">{{$issue->title}}</h3>
         <a href="/issues/{{$issue->id}}/edit" class="edit-issue btn btn-default btn-sm">Edit</a>
         <p>Description: {{$issue->description}}</p>
-        @include('issues.common.subissue')
+        <div id="show-subissues">
+            @include('issues.common.subissue')
+        </div>
         <p>Status: {{App\IssueStatus::find($issue->status_id)->label}}</p>
         <p>Estimate: {{$issue->estimation or '-'}}</p>
         <?php $issueDeadline = $issue->deadline;?>

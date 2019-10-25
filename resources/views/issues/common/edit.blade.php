@@ -9,7 +9,9 @@
     {!! Form::label('description', 'Description:') !!}
     {!! Form::textarea('description', null, ['class' => 'form-control']) !!}
 </div>
-@include('issues.common.subissue')
+<div id="edit-subissues">
+    @include('issues.common.subissue')
+</div>
 <div class="form-group">
     {!! Form::label('project_id', 'Project:') !!}
     {!! Form::select('project_id', $projectNames, null, ['class' => 'form-control']) !!}
