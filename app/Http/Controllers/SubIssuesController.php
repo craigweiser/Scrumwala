@@ -111,7 +111,7 @@ class SubissuesController extends Controller
     public function markAsToDo($id)
     {
         \Log::info('Attempting to mark the subissue with the id: ' . $id .' as todo');
-        return $this->toggleDone($id,true);
+        return $this->toggleDone($id,false);
     }
 
     private function toggleDone($id, $newState)

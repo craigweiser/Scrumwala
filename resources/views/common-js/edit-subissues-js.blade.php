@@ -14,7 +14,7 @@ $('body').on('click', '#add-subissue', function() {
                 class: 'subissue-item',
                 text: ' '+data.description+' '
             }
-        ).prependTo('#subissue-items');
+        ).attr('data-subissue-id', data.id).prependTo('#subissue-items');
         var subissueCheckbox = $(
             '<input/>',
             {
@@ -63,9 +63,22 @@ $('body').on('click', '.subissue-checkbox', function() {
             url: "/subissues/done/" + subissue_id, 
             data: {"_token": "{{ csrf_token() }}", "_method": "PUT"}
         }).done(function( result ) {
-            console.log("Result of the put request was: " + result.msg );
-            if(result.msg == 'ok') {
+            console.log("Result of the put request was: " + result );
+            if(result == 'ok') {
                 // add done label
+                var labelSuccessSpan = $(
+                    '<span/>',
+                    {
+                        class: 'label label-success',
+                        text: ' '
+                    }
+                ).insertBefore(subissueItemToMarkAsDone.find('.remove-subisse-item'));
+                $(
+                    '<span/>',
+                    {
+                        class: 'glyphicon glyphicon-ok',
+                    }
+                ).attr('aria-hidden', 'true').appendTo(labelSuccessSpan);
             }
         });
     } else {
@@ -75,10 +88,13 @@ $('body').on('click', '.subissue-checkbox', function() {
             url: "/subissues/todo/" + subissue_id, 
             data: {"_token": "{{ csrf_token() }}", "_method": "PUT"}
         }).done(function( result ) {
-            console.log("Result of the put request was: " + result.msg );
-            if(result.msg == 'ok') {
-                // remove done label
+            console.log("Result of the put request was: " + result );
+            if(result == 'ok') {
+                subissueItemToMarkAsDone.find('.label-success').remove();
             }
         });
     }
+});
+$('body').on('click', '#remove-subissue', function(){
+    $('#subissue').val('');
 });
