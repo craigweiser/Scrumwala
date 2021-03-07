@@ -23,3 +23,31 @@
         </div>
     @endif
 @endsection
+@section('beforebodyend')
+    <script>
+        $('.increase-importance').on('click', function() {
+            console.debug('click on ' + this);
+            var url = "{{action('ProjectsController@increaseImportance', ['projects' => ':projectid'])}}"
+            var projectId = this.dataset.projectid;
+            url = url.replace(':projectid', projectId);
+            console.debug('Url: ' +  url);
+            $.get(url, function( data ) {
+                console.debug('got data for project ' + projectId + ': ' + data);
+                $('#project-importance-' + projectId).empty();
+                $('#project-importance-' + projectId).append(data);
+            })
+        });
+        $('.decrease-importance').on('click', function() {
+            console.debug('click on ' + this);
+            var url = "{{action('ProjectsController@decreaseImportance', ['projects' => ':projectid'])}}"
+            var projectId = this.dataset.projectid;
+            url = url.replace(':projectid', projectId);
+            console.debug('Url: ' +  url);
+            $.get(url, function( data ) {
+                console.debug('got data for project ' + projectId + ': ' + data);
+                $('#project-importance-' + projectId).empty();
+                $('#project-importance-' + projectId).append(data);
+            })
+        });
+    </script>
+@endsection

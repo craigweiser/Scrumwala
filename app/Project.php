@@ -161,4 +161,40 @@ class Project extends Model {
 	public function findProjectCategories() {
 		return $this->categories()->get();
 	}
+
+	/**
+	 * increaseImportance increases the importance of the project by 1 and persists the new value
+	 * @return int importance of the project
+	 */
+	public function increaseImportance()
+	{
+		$importance = $this->importance;
+		if(empty($importance)) {
+			$importance = 1;
+		} else {
+			$importance++;
+		}
+		$this->importance = $importance;
+		$this->save();
+		return $importance;
+	}
+
+	/**
+	 * decreaseImportance decreases the importance of the project by 1 and persists the new value
+	 * @return int importance of the project
+	 */
+	public function decreaseImportance()
+	{
+		$importance = $this->importance;
+		if(empty($importance)) {
+			$importance = 1;
+		} elseif ($importance <= 1) {
+			$importance = 1;
+		} else {
+			$importance--;
+		}
+		$this->importance = $importance;
+		$this->save();
+		return $importance;
+	}
 }

@@ -23,7 +23,7 @@ class ProjectsController extends Controller {
 	 */
 	public function index()
 	{
-		$projects = Project::latest()->get();
+		$projects = Project::orderBy('importance', 'desc')->get();
 		return view('projects.index')->with('projects', $projects);
 	}
 
@@ -146,4 +146,17 @@ class ProjectsController extends Controller {
 		//
 	}
 
+	public function increaseImportance(Project $project)
+	{
+		\Log::debug('Project to increase importance: ' . $project->name . '('.$project->id.')');
+		$importance = $project->increaseImportance();
+		return $importance;
+	}
+
+	public function decreaseImportance(Project $project)
+	{
+		\Log::debug('Project to decrease importance: ' . $project->name . '('.$project->id.')');
+		$importance = $project->decreaseImportance();
+		return $importance;
+	}
 }

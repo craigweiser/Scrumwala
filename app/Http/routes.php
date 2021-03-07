@@ -10,6 +10,8 @@ Route::get('/home', function(){
 
 /* Projects */
 Route::get('projects/{projects}/plan', 'ProjectsController@plan');
+Route::get('projects/{projects}/importance/increase', 'ProjectsController@increaseImportance');
+Route::get('projects/{projects}/importance/decrease', 'ProjectsController@decreaseImportance');
 Route::resource('projects', 'ProjectsController');
 
 /* Categories */
